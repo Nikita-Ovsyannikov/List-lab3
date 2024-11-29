@@ -1,4 +1,4 @@
-#include "gtest.h"
+﻿#include "gtest.h"
 #include "tlist.h"
 
 TEST(Tlist, can_create_list)
@@ -138,6 +138,34 @@ TEST(Tlist, push_front_to_empty_list)
 	ASSERT_EQ(a.size(), 1);
 	ASSERT_EQ(a.front_val(), 1);
 	ASSERT_EQ(a.back_val(), 1);
+}
+
+TEST(Tlist, can_copy_empty_list) 
+{
+	list<int> a;
+	list<int> b(a); 
+	EXPECT_TRUE(b.empty());
+	list<int> c;
+	c = a;
+	EXPECT_TRUE(c.empty());
+}
+
+TEST(Tlist, can_copy_by_constructor) {
+	list<int> a;
+	for (int i = 0; i < 7; i++) {
+		a.push_back(i);
+	}
+	ASSERT_NO_THROW(list<int> b(a));
+
+}
+
+TEST(Tlist, can_copy_by_assignment_self) {
+	list<int> a;
+	for (int i = 0; i < 5; ++i) {
+		a.push_back(i);
+	}
+	ASSERT_NO_THROW(a = a);
+
 }
 
 TEST(Tlist, move_constructor)
