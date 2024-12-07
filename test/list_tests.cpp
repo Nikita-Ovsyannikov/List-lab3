@@ -1,5 +1,6 @@
 ﻿#include "gtest.h"
 #include "tlist.h"
+#include <algorithm>
 
 TEST(Tlist, can_create_list)
 {
@@ -225,4 +226,177 @@ TEST(Tlist, test_for_print)
 	a.clear();
 	a.print();
 	ASSERT_TRUE(1);
+}
+
+//for task
+
+TEST(Tlist, selection_sort) 
+{
+	list<int> a;
+	a.push_back(5);
+	a.push_back(2);
+	a.push_back(8);
+	a.push_back(1);
+	a.push_back(9);
+	a.push_back(4);
+
+	a.sort();
+
+	ASSERT_EQ(a.size(), 6);
+	auto it = a.begin();
+	ASSERT_EQ(*it, 1);
+	++it;
+	ASSERT_EQ(*it, 2);
+	++it;
+	ASSERT_EQ(*it, 4);
+	++it;
+	ASSERT_EQ(*it, 5);
+	++it;
+	ASSERT_EQ(*it, 8);
+	++it;
+	ASSERT_EQ(*it, 9);
+}
+
+
+TEST(Tlist, selection_sort_empty_list) 
+{
+	list<int> a;
+	a.sort();
+	ASSERT_TRUE(a.empty());
+}
+
+TEST(Tlist, selection_sort_one_element_list) 
+{
+	list<int> a;
+	a.push_back(5);
+	a.sort();
+	ASSERT_EQ(a.size(), 1);
+	ASSERT_EQ(a.front_val(), 5);
+}
+
+TEST(Tlist, selection_sort_already_sorted_list) 
+{
+	list<int> a;
+	a.push_back(1);
+	a.push_back(2);
+	a.push_back(3);
+	a.sort();
+
+	ASSERT_EQ(a.size(), 3);
+	auto it = a.begin();
+	int i = 1;
+	for (; it != a.end(); ++it, i++) {
+		ASSERT_EQ(*it, i);
+	}
+}
+
+TEST(Tlist, selection_sort_duplicates) 
+{
+	list<int> a;
+	a.push_back(3);
+	a.push_back(1);
+	a.push_back(2);
+	a.push_back(3);
+	a.push_back(1);
+
+	a.sort();
+
+	ASSERT_EQ(a.size(), 5);
+	auto it = a.begin();
+	ASSERT_EQ(*it, 1);
+	++it;
+	ASSERT_EQ(*it, 1);
+	++it;
+	ASSERT_EQ(*it, 2);
+	++it;
+	ASSERT_EQ(*it, 3);
+	++it;
+	ASSERT_EQ(*it, 3);
+}
+
+TEST(Tlist, insert_in_sorted_list) 
+{
+	list<int> a;
+	a.push_back(1);
+	a.push_back(3);
+	a.push_back(5);
+
+	a.insert_in_sorted_list(2);
+	a.insert_in_sorted_list(4);
+	a.insert_in_sorted_list(0);
+	a.insert_in_sorted_list(6);
+
+	ASSERT_EQ(a.size(), 7);
+	auto it = a.begin();
+	for (int i = 0; it != a.end(); ++it, i++) {
+		ASSERT_EQ(*it, i);
+	}
+}
+
+TEST(Tlist, insert_in_sorted_list_empty_list) 
+{
+	list<int> a;
+	a.insert_in_sorted_list(5);
+	ASSERT_EQ(a.size(), 1);
+	ASSERT_EQ(a.front_val(), 5);
+}
+
+TEST(Tlist, insert_in_sorted_list_at_begin) 
+{
+	list<int> a;
+	a.push_back(2);
+	a.push_back(3);
+
+	a.insert_in_sorted_list(1);
+
+	ASSERT_EQ(a.size(), 3);
+	auto it = a.begin();
+	for (int i = 1; it != a.end(); ++it, i++) {
+		ASSERT_EQ(*it, i);
+	}
+}
+
+TEST(Tlist, insert_in_sorted_list_at_end) 
+{
+	list<int> a;
+	a.push_back(1);
+	a.push_back(2);
+	a.insert_in_sorted_list(3);
+	
+	ASSERT_EQ(a.size(), 3);
+	auto it = a.begin();
+	
+	for (int i = 1; it != a.end(); ++it, i++) {
+		ASSERT_EQ(*it, i);
+	}
+}
+
+TEST(Tlist, insert_in_sorted_list_duplicates) 
+{
+	list<int> a;
+	a.push_back(1);
+	a.push_back(3);
+	a.push_back(3);
+	a.push_back(5);
+
+	a.insert_in_sorted_list(1); 
+	a.insert_in_sorted_list(3); 
+	a.insert_in_sorted_list(5); 
+
+	ASSERT_EQ(a.size(), 7);
+	auto it = a.begin();
+	
+	ASSERT_EQ(*it, 1);
+	++it;
+	ASSERT_EQ(*it, 1);
+	++it;
+	ASSERT_EQ(*it, 3);
+	++it;
+	ASSERT_EQ(*it, 3);
+	++it;
+	ASSERT_EQ(*it, 3);
+	++it;
+	ASSERT_EQ(*it, 5);
+	++it;
+	ASSERT_EQ(*it, 5);
 }
